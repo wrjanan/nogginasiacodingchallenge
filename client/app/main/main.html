@@ -1,0 +1,125 @@
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-5">
+			<br>
+			<div class="row center-block">
+				<div class="col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
+
+
+					<div class="row">
+						<div id="alertMessage" class="alert" role="alert">Github's API allow us {{$ctrl.rateLimit.rate.limit}} API calls, we have {{$ctrl.rateLimit.rate.remaining}} left. API limit resets at {{ ($ctrl.rateLimit.rate.reset * 1000) | date:'medium'}}</div>
+
+					</div>
+
+					<div class="row">
+						<p>Welcome to a mini application where we consume Github's developer <a href="https://developer.github.com/v3/" >API</a> to produce a simple overview of a user's Github activity. </p>
+					</div>
+
+
+
+					<br>
+
+					<form>
+						<div class="form-group">
+							<label>Github Username</label>
+							<input type="text" class="form-control" placeholder="Username" ng-model="$ctrl.githubUserInput">
+						</div>
+						<button type="submit" class="btn btn-default" ng-click="$ctrl.getUserRepo();">Submit</button>
+					</form>
+
+					<br>
+
+					<div ng-show="$ctrl.userRepoShow" class="panel panel-default">
+						<!-- Default panel contents -->
+						<div class="panel-heading">{{ $ctrl.userRepos.length}} Total Repos</div>
+						<div class="panel-body">
+							<p></p>
+						</div>
+
+						<!-- Table -->
+						<table class="table">
+							<tr>
+								<th>Languages</th>
+								<th>Code size</th> 
+							</tr>
+							<tr ng-repeat="sumLanguage in $ctrl.userGlobalLanguagesArray | orderBy :'-bytes'">
+								<td>{{sumLanguage.name}}</td>
+								<td>{{sumLanguage.bytes}}</td> 
+							</tr>
+						</table>
+					</div>
+					<!--
+-->	
+				</div>
+			</div>
+
+		</div>
+		<div class="col-lg-5">
+			<br>
+			<div class="row center-block">
+				<div class="btn-group" role="group" aria-label="" ng-show="$ctrl.userRepos.length > 0">
+					<button type="button" ng-click="$ctrl.tableCollapse(1)" class="btn btn-default">Collapse All</button>
+					<button type="button" ng-click="$ctrl.tableCollapse(2)" class="btn btn-default">Show All</button>
+				</div>
+<br>
+<br>
+				<div ng-show="$ctrl.userRepoShow" class="panel panel-default" ng-repeat="repo in $ctrl.userRepos track by $index">
+					<!-- Default panel contents -->
+					<div class="panel-heading" ng-click="repo.isCollapsed = !repo.isCollapsed" style="cursor:pointer;">
+						<span ng-if="repo.isCollapsed">+</span><span ng-if="!repo.isCollapsed">-</span>  {{repo.name}}</div>
+					<div class="panel-body" ng-show="repo.description">
+						<p>{{repo.description}}</p>
+					</div>
+
+					<!-- Table -->
+					<table class="table table-bordered" ng-show="!repo.isCollapsed">
+						<tr>
+							<th>Author</th>
+							<th>Contributions</th>
+						</tr>
+						<tr ng-repeat="contributor in repo.contributorList">
+							<td>
+								<img class="img-circle img-contributor" ng-src="{{contributor.avatar_url}}">
+								&nbsp; {{contributor.name || contributor.login}}</td>
+							<td>{{contributor.contributions}}</td>
+						</tr>
+						<tr></tr>
+
+						<tr>
+							<th>Languages</th>
+							<th>Bytes</th>
+						</tr>
+						<tr  data-toggle="collapse" data-target="#collapseExample" ng-repeat="language in repo.languageList">
+							<td>{{language.name}}</td>
+							<td>{{language.bytes}}</td>
+						</tr>
+					</table>
+
+
+					<!-- Table
+<table class="table table-bordered" ng-show="repo.languageList">
+
+<br>
+<br>
+<tr></tr>
+<tr>
+<th>Languages</th>
+<th>Bytes</th>
+</tr>
+<tr  data-toggle="collapse" data-target="#collapseExample" ng-repeat="language in repo.languageList">
+<td>{{language.name}}</td>
+<td>{{language.bytes}}</td>
+</tr>
+<tr ng-repeat-end></tr>
+
+</table>
+-->
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+</div>
