@@ -1,5 +1,9 @@
 # nogginasia-janan
 
+Coding challenge by NogginAsia.
+
+To consume Github's developer's API to show a user's list of repository, diving into the contributions and language of each repository.
+
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.5.0.
 
 ## Getting Started
